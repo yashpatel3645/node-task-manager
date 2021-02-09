@@ -13,19 +13,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
 
+// Provide port for run
 app.listen(port, () => {
     console.log('Server is Running on ' + port);
 })
-
-// const bcrypt = require('bcryptjs');
-
-// const myFunc = async() => {
-//     const password = "Yash1234"
-//     const hashedPassword = await bcrypt.hash(password, 8)
-//     console.log(hashedPassword);
-//     console.log(password);
-
-//     const isMatch = await bcrypt.compare('Yash1234', hashedPassword)
-//     console.log(isMatch);
-// }
-// myFunc()
