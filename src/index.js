@@ -6,6 +6,32 @@ const taskRouter = require('./routers/tasks')
 const app = express()
 const port = process.env.PORT || 3000
 
+// Add File Upload
+const multer = require('multer');
+const upload = multer({
+    dest: 'images',
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(doc|docx)$/)) {
+            return cb(new Error('Please upload a Word Document.'))
+        }
+
+        cb(undefined, true)
+
+        // cb(new Error('File Must be a PDF'))
+        // cb(undefined, true)
+        // cb(undefined, false)
+    }
+})
+
+app.post('/upload', upload.single('upload'), (req, res) => {
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
+
 // Get Data From web
 app.use(express.json())
 
@@ -17,19 +43,3 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log('Server is Running on ' + port);
 })
-
-// const Task = require('./models/tasks')
-// const User = require('./models/user')
-
-// const main = async() => {
-//     const task = await Task.findById('6022adbaa6de263903ffca46')
-//     await task.populate('owner').execPopulate()
-//     console.log(task.owner);
-
-//     const user = await User.findById('6022acd78a971638de2a13f6')
-//     await user.populate('tasks').execPopulate()
-//     console.log(user.tasks);
-
-// }
-
-// main()
