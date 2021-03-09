@@ -69,6 +69,7 @@ userSchema.methods.toJSON = function() {
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avatar
 
     return userObject
 }
@@ -76,7 +77,7 @@ userSchema.methods.toJSON = function() {
 // Generate Token
 userSchema.methods.generateAuthToken = async function() {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'ThisIsMyCourse')
+    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_TOKEN)
 
     user.tokens = user.tokens.concat({ token })
     await user.save()
